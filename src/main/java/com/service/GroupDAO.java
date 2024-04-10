@@ -1,0 +1,52 @@
+package com.service;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.models.Group;
+
+public class GroupDAO {
+    private String url = "jdbc:postgresql://localhost:5432/crud";
+    private String user = "postgres";
+    private String password = "root";
+
+    // metodo per creare un group
+    private void createGroup(Group group) {
+        String query = "insert into group (id, name, password, isprivate) values = ?, ?, ?, ?";
+        // istanziazione dell'oggetto Connection
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, group.getId());
+            ps.setString(2, group.getName());
+            ps.setString(3, group.getPassword());
+            ps.setBoolean(4, group.isPrivate());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // metodo per leggere un group
+    private Group readGroup(int groupId) {
+        String query = "select * from groups where id = ?";
+
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, groupId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Group(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getBoolean("isPrivate"));
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+}

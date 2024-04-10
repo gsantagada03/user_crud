@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.postgresql.Driver;
+
 
 import com.models.Message;
 
@@ -29,6 +29,7 @@ public class MessageDAO {
             ps.setInt(2, message.getSenderMessage());
             ps.setString(3, message.getText());
             ps.setDate(4, Date.valueOf(message.getCurrentTimeStamp()));
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,8 +50,6 @@ public class MessageDAO {
                         rs.getDate("timestamp").toLocalDate());
             }
         } catch (Exception e) {
-            e.printStackTrace();
-
         }
         return null;
     }
@@ -70,7 +69,6 @@ public class MessageDAO {
     }
 
     //Metodo per cancellare un messaggio
-
     public void deleteMessage(int messageId) {
         String query = "DELETE * from messaggio WHERE id = ?";
         try(Connection conn = DriverManager.getConnection(url, this.user, this.password);
