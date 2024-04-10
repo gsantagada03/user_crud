@@ -45,4 +45,6 @@ public class Group {
         this.isPrivate = isPrivate;
     }
 
+    
+    
 }

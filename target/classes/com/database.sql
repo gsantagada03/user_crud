@@ -12,11 +12,11 @@ CREATE TABLE messaggio (
     sender_message VARCHAR(100),
     text TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+)
 
 CREATE TABLE groups (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     password VARCHAR(100),
     isPrivate BOOLEAN NOT NULL DEFAULT FALSE
-);
+)
