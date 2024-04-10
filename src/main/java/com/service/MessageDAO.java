@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.postgresql.Driver;
 
@@ -33,29 +34,53 @@ public class MessageDAO {
         }
     }
 
-    //metodo per leggere un messaggio
-    public Message readMessage(int messageId){
-        String query = "select * from message where id = ?";
-        try(Connection con = DriverManager.getConnection(url, this.user, this.password)){
+    // metodo per leggere un messaggio
+    public Message readMessage(int messageId) {
+        String query = "select * from messaggio where id = ?";
+        try (Connection con = DriverManager.getConnection(url, this.user, this.password)) {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, messageId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return new Message(
-                    rs.getInt("id_message"),
-                    rs.getInt("sender"),
-                    rs.getString("text"),
-                    rs.getDate("timestamp").toLocalDate());
+                        rs.getInt("id_message"),
+                        rs.getInt("sender"),
+                        rs.getString("text"),
+                        rs.getDate("timestamp").toLocalDate());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            
-        }
-    return null;
-}
 
-   //metodo per aggiornare un messaggio
-   
+        }
+        return null;
+    }
+
+    // metodo per aggiornare un messaggio
+
+    public void updateMessage(Message message) {
+        String query = "UPDATE messaggio SET text = ? WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(url, this.user, this.password);
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, message.getText());
+            pstmt.setInt(2, message.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Metodo per cancellare un messaggio
+
+    public void deleteMessage(int messageId) {
+        String query = "DELETE * from messaggio WHERE id = ?";
+        try(Connection conn = DriverManager.getConnection(url, this.user, this.password);
+            PreparedStatement pstm = conn.prepareStatement(query)) {
+            pstm.setInt(1, messageId);
+            pstm.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
