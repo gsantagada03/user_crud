@@ -4,9 +4,9 @@ import java.sql.*;
 import java.time.LocalDate;
 
 public class UserDAO {
-    private String url = "jdbc:postgresql://localhost:5432/user_crud";
+    private String url = "jdbc:postgresql://localhost:5432/crud";
     private String user = "postgres";
-    private String password = "password";
+    private String password = "root";
 
     // Metodo per creare un utente
     public void createUser(User user) {

@@ -6,3 +6,10 @@ CREATE TABLE Utente (
     password VARCHAR(255) NOT NULL,
     data_di_registrazione DATE NOT NULL DEFAULT CURRENT_DATE
 )
+
+CREATE TABLE messaggio (
+    id_message SERIAL PRIMARY KEY,
+    sender_message VARCHAR(100),
+    text TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
